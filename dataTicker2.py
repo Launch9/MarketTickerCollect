@@ -29,13 +29,13 @@ def startNode(tickerz):
     
     while True:
         try:
+            latest_ping = datetime.now()
             ws.query_exchange_state(tickers[0:int(len(tickers)/2)])
             for i in tickers[0:int(len(tickers)/2)]:
                 book = ws.get_order_book(i)
                 if(book != None):
                     book['timestamp'] = time.time()
                     print("Writing to file!1: " + i)
-                    latest_ping = datetime.now()
                     sleep(sleepTime)
                     with open("./data/" + book['ticker'] + "/" + book['ticker'] + ":" + str(book['timestamp']) + ".json", 'w') as json_file:
                         json.dump({"book":book}, json_file)
@@ -46,7 +46,6 @@ def startNode(tickerz):
                 if(book != None):
                     book['timestamp'] = time.time()
                     print("Writing to file!2: " + i)
-                    latest_ping = datetime.now()
                     sleep(sleepTime)
                     with open("./data/" + book['ticker'] + "/" + book['ticker'] + ":" + str(book['timestamp']) + ".json", 'w') as json_file:
                         json.dump({"book":book}, json_file)
@@ -78,9 +77,12 @@ def startNode(tickerz):
             if(delta != None):
                 if(delta.seconds > 480):
                     return False
+                print(delta.seconds)
+                print(totalTime - (sleepTime * (len(tickers) / 2)))
                 if(delta.seconds < totalTime - (sleepTime * (len(tickers) / 2))):
                     print("No new updates. Sleeping for 30 seconds")
                     sleep(30)
+                
         except KeyboardInterrupt:
             exit()
         except:
