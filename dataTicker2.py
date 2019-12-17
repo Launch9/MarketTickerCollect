@@ -56,6 +56,8 @@ def startNode(tickerz):
 
             delta = (datetime.now() - latest_ping)
             print("Latest delta: " + str(float(delta.seconds)))
+        except KeyboardInterrupt:
+            exit()
         except:
             print("Threw exception!")
             return False
@@ -67,6 +69,8 @@ def startNode(tickerz):
             with open("./data/summaries/summary-" + str(curTime) + ".json", 'w') as json_file:
                 json.dump(summary, json_file)
                 json_file.close()
+        except KeyboardInterrupt:
+            exit()
         except:
             print("Caught exception!")
         
@@ -77,6 +81,8 @@ def startNode(tickerz):
                 if(delta.seconds < totalTime - (sleepTime * (len(tickers) / 2))):
                     print("No new updates. Sleeping for 30 seconds")
                     sleep(30)
+        except KeyboardInterrupt:
+            exit()
         except:
             print("Threw exception!")
     else:
