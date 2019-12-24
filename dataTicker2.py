@@ -14,7 +14,7 @@ def startNode(tickerz):
             
             
                     
-
+    resetCounter = 0
     # Create the socket instance
     ws = MySocket()
     # Enable logging
@@ -87,6 +87,12 @@ def startNode(tickerz):
             exit()
         except:
             print("Threw exception!")
+
+        resetCounter += 1
+        print("Reset counter: " + str(resetCounter))
+        if(resetCounter == 7):
+            resetCounter = 0
+            return False
     else:
         pass
 
